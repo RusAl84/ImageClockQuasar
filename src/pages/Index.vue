@@ -4,7 +4,7 @@
       <q-card-section>
         <q-uploader
           url="http://localhost:5000/upload"
-          label="Upload files"
+          label="Загрузите свое фото"
           color="purple"
           square
           flat
@@ -13,7 +13,8 @@
           accept=".jpg, image/*"
           @rejected="onRejected"
           @finish="onFinishUpload"
-          style="max-width: 600px"
+          @start="onStartUpload"
+          style="min-width: 600px; max-width: 600px"
         />
       </q-card-section>
       <q-card-section>
@@ -46,9 +47,14 @@ export default defineComponent({
   methods: {
     onFinishUpload() {
       setTimeout(() => {
-        console.log("World!");
-      }, 2000);
+        console.log("Weit!");
+      }, 4000);
+      this.url = "";
       this.url = "http://localhost:5000/static/image.jpg";
+      this.$forceUpdate();
+    },
+    onStartUpload() {
+      this.url = "";
       this.$forceUpdate();
     },
   },
