@@ -1,21 +1,56 @@
 <template>
   <q-page class="flex flex-center">
-    <q-uploader
-      url="http://192.168.88.17:5000/upload"
-      label="Upload files"
-      color="purple"
-      square
-      flat
-      bordered
-      style="max-width: 300px"
-    />
+    <q-card>
+      <q-card-section>
+        <q-uploader
+          url="http://localhost:5000/upload"
+          label="Upload files"
+          color="purple"
+          square
+          flat
+          bordered
+          single
+          accept=".jpg, image/*"
+          @rejected="onRejected"
+          @finish="onFinishUpload"
+          style="max-width: 600px"
+        />
+      </q-card-section>
+      <q-card-section>
+        <q-img
+          :src="url"
+          spinner-color="white"
+          style="height: 320px; max-width: 540px"
+        />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
+//
+<q-btn push color="teal" label="Change image" @click="refresh" />
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "PageIndex",
+  setup() {
+    const url = ref("");
+    return {
+      url,
+      refresh() {
+        url.value = "https://placeimg.com/500/300/nature?t=" + Math.random();
+      },
+    };
+  },
+  methods: {
+    onFinishUpload() {
+      setTimeout(() => {
+        console.log("World!");
+      }, 2000);
+      this.url = "http://localhost:5000/static/image.jpg";
+      this.$forceUpdate();
+    },
+  },
 });
 </script>
